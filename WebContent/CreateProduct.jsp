@@ -6,10 +6,10 @@
 <title>添加商品页面</title>
 </head>
 <body>
-	<form action="http://www.163.com" method="get">
-		商品名：<input type="text" name="name" /><br>
-		价格：<input type="text" name="price" /> <br>
-		备注：<textarea rows="5" cols="20"></textarea>
+	<form action="/webBuli/ProductToServlet" method="post">
+		商品名：<input type="text" name="thename" /><br>
+		价格：<input type="text" name="theprice" /> <br>
+		备注：<textarea rows="5" cols="20" name="theremark"></textarea>
 		<button type="submit">添加商品</button>
 	</form>
 </body>
