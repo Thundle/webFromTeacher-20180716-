@@ -7,10 +7,11 @@
 </head>
 <body>
 	<form action="/webBuli/ProductToServlet" method="post">
-		商品名：<input type="text" name="thename" /><br>
-		价格：<input type="text" name="theprice" /> <br>
-		备注：<textarea rows="5" cols="20" name="theremark"></textarea>
+		商品名：<input type="text" name="nameInJSP" /><br>
+		价格：<input type="text" name="priceInJSP" /> <br>
+		备注：<textarea rows="5" cols="20" name="remarkInJSP"></textarea>
 		<button type="submit">添加商品</button>
+		<input type="hidden" name="operateTypeInJSP" value="insert">
 	</form>
 </body>
 </html>
