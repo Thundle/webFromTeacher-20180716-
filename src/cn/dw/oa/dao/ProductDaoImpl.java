@@ -18,18 +18,11 @@ import cn.dw.oa.model.Product;
 import cn.dw.oa.utils.JdbcUtils;
 
 // 完成基本product表的相关操作
-public class ProductDaoImpl extends BasicDaoImpl{
+public class ProductDaoImpl extends BasicDaoImpl<Product>{
 	
 	public static void main(String[] args) {
 		ProductDaoImpl daoImpl = new ProductDaoImpl();
 		Product product = new Product();
-//		product.setName("Vivo");
-//		product.setPrice(3000.00);
-//		product.setRemark("7月17日22:56");
-//		daoImpl.insertToProduct(product);
-		daoImpl.selectWhereId(4);
-		System.out.println(product);
-//		daoImpl.selectWhereName("Vivo");
 	}
 	
 	public int insertToProduct(Product product) {
@@ -52,61 +45,86 @@ public class ProductDaoImpl extends BasicDaoImpl{
 		return super.unifyUpdate(sql, id);
 	}
 	
-	public Product selectWhereId(int id) {
-		Product product = null;
-		String sql = "select * from product where id = ?";
-		JdbcUtils jdbcUtils = new JdbcUtils();
-		Connection conn = null;
-		PreparedStatement pre = null;//这里若定义成Statement pre =null，下面是没有pre.setInt方法的
-		ResultSet rs = null;
-		try {
-			conn = jdbcUtils.getConnection();
-			pre = conn.prepareStatement(sql);
-			pre.setInt(1,id);
-			rs = pre.executeQuery();
-		//到这一步，其实和insert等3个方法是一样的，只不过执行的是executeQuery
-		//因为得到一个结果集rs，现在要从rs中把数据拿出来
-			if (rs.next()) {
-				product = new Product();
-				product.setId(rs.getInt("id"));
-				product.setName(rs.getString("name"));
-				product.setPrice(rs.getDouble("price"));
-				product.setDate(rs.getDate("date"));
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException();
-		}finally {
-			jdbcUtils.close(conn, pre);
-		}
+	public Product selectByID(int id) {                          //一开始这里定义了返回类型是ProductList，仔细想想就知道，返回的是某个product对象
+		String sql = "select * from product where id =?";
+		List<Product> productList = super.unifyQuery(sql, id);
+		return productList.size()==0? null : productList.get(0);
+	}
+	
+	public List<Product> selectByName(String name) {
+		String sql = "select * from product where name like ?";
+		return super.unifyQuery(sql, "%"+ name +"%");
+		
+	}
+	
+	@Override
+	protected Product getRow(ResultSet rs) throws SQLException {  //对于商品，重写getRow方法
+		Product product = new Product();
+		product.setId(rs.getInt("id"));
+		product.setName(rs.getString("name"));
+		product.setPrice(rs.getDouble("price"));
+		product.setRemark(rs.getString("remark"));
+		product.setDate(rs.getDate("date"));
 		return product;
 	}
 	
-	public List<Product> selectWhereName(String name) {
-		List<Product> productList = new ArrayList<Product>();
-		String sql = "selcet * from product where name like ?";
-		JdbcUtils jdbcUtils = null;
-		Connection conn = null;
-		PreparedStatement pre = null;
-		ResultSet rs = null;
-		conn = jdbcUtils.getConnection();
-		try {
-			conn = jdbcUtils.getConnection();
-			pre = conn.prepareStatement(sql);
-			pre.setString(1, "%"+name+"%");
-			rs = pre.executeQuery();
-			while (rs.next()) {
-				Product product = new Product();
-				product.setId(rs.getInt("id"));
-				product.setPrice(rs.getDouble("price"));
-				product.setRemark(rs.getString("remark"));
-				product.setDate(rs.getDate("date"));
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException();
-		}
-		return productList;
-		
-	}
+	
+	
+	
+	
+//	public Product selectWhereId(int id) {
+//		Product product = null;
+//		String sql = "select * from product where id = ?";
+//		JdbcUtils jdbcUtils = new JdbcUtils();
+//		Connection conn = null;
+//		PreparedStatement pre = null;//这里若定义成Statement pre =null，下面是没有pre.setInt方法的
+//		ResultSet rs = null;
+//		try {
+//			conn = jdbcUtils.getConnection();
+//			pre = conn.prepareStatement(sql);
+//			pre.setInt(1,id);
+//			rs = pre.executeQuery();
+//		//到这一步，其实和insert等3个方法是一样的，只不过执行的是executeQuery
+//		//因为得到一个结果集rs，现在要从rs中把数据拿出来
+//			if (rs.next()) {
+//				product = new Product();
+//				product.setId(rs.getInt("id"));
+//				product.setName(rs.getString("name"));
+//				product.setPrice(rs.getDouble("price"));
+//				product.setDate(rs.getDate("date"));
+//			}
+//		} catch (SQLException e) {
+//			throw new RuntimeException();
+//		}finally {
+//			jdbcUtils.close(conn, pre);
+//		}
+//		return product;
+//	}
+//	
+//	public List<Product> selectWhereName(String name) {
+//		List<Product> productList = new ArrayList<Product>();
+//		String sql = "selcet * from product where name like ?";
+//		JdbcUtils jdbcUtils = null;
+//		Connection conn = null;
+//		PreparedStatement pre = null;
+//		ResultSet rs = null;
+//		conn = jdbcUtils.getConnection();
+//		try {
+//			conn = jdbcUtils.getConnection();
+//			pre = conn.prepareStatement(sql);
+//			pre.setString(1, "%"+name+"%");
+//			rs = pre.executeQuery();
+//			while (rs.next()) {
+////				productList.add(rs.getInt("id"));
+//			}
+//		} catch (SQLException e) {
+//			throw new RuntimeException();
+//		}
+//		return productList;
+//		
+//	}
+
+	
 	
 	
 	// 所有的字段封装到Product中
