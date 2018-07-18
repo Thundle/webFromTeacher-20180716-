@@ -1,6 +1,8 @@
 package cn.dw.oa.servlet;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,16 +21,20 @@ public class ProductToServlet extends HttpServlet {
     public ProductToServlet() {
         super();
     }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	Product product = new Product();
+    	product.setName(request.getParameter("thename"));
+    	product.setPrice(Double.parseDouble(request.getParameter("theprice")));
+    	productService.insertToProduct(product);
+    	response.sendRedirect("/webBuli/QueryProduct.jsp");
+    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String queryKeyword = request.getParameter("keyword");
+		List<Product> pList = productService.selectByName(queryKeyword);
+		System.out.println(pList.size());
+		
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Product product = new Product();
-		product.setName(request.getParameter("thename"));
-		product.setPrice(Double.parseDouble(request.getParameter("theprice")));
-		productService.insertToProduct(product);
-		response.sendRedirect("/QueryProduct.jsp");
-	}
 
 }
