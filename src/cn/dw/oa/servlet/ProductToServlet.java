@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import cn.dw.oa.model.Product;
 import cn.dw.oa.service.ProductService;
@@ -21,6 +22,15 @@ public class ProductToServlet extends HttpServlet {
     public ProductToServlet() {
         super();
     }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String queryKeyword = request.getParameter("keyword");
+    	List<Product> pList = productService.selectByName(queryKeyword);
+//		System.out.println(pList.size());
+    	HttpSession session = request.getSession();
+    	session.setAttribute("pList",pList);
+    	response.sendRedirect("/webBuli/QueryProduct.jsp");
+    }
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	Product product = new Product();
     	product.setName(request.getParameter("thename"));
@@ -29,12 +39,6 @@ public class ProductToServlet extends HttpServlet {
     	response.sendRedirect("/webBuli/QueryProduct.jsp");
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String queryKeyword = request.getParameter("keyword");
-		List<Product> pList = productService.selectByName(queryKeyword);
-		System.out.println(pList.size());
-		
-	}
 	
 
 }
