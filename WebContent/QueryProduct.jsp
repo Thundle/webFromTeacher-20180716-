@@ -9,7 +9,7 @@
 </head>
 <body>
 	<form action="/webBuli/ProductToServlet" method="get">
-		查询关键字:<input type="text" name="keywordInJSP" />
+		查询关键字:<input type="text" name="keywordInJSP" value="${sessionScope.querykeyword}" />
 		<button type="submit">给我搜</button>
 		<input type="hidden" name="operateTypeInJSP" value="query">
 	</form>
@@ -34,7 +34,7 @@
 				<td>${p.price}</td>
 				<td>${p.remark }</td>
 				<td>${p.date}</td>
-				<td><a href="/web/ProductToServlet?id=${p.id}&type=delete">删除</a>|ajax删除|更新</td>
+				<td><a href="/webBuli/ProductToServlet?id=${p.id}&operateTypeInJSP=delete">删除</a>|ajax删除|更新</td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -31,7 +31,7 @@ public class JdbcUtils {
 	// 编写一个方法,每次调用此方法获取一个Connection对象
 	public Connection getConnection() {
 		try {
-			return DriverManager.getConnection("jdbc:mysql://localhost:3306/demo", "buli", "Powerbrother001!");
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?characterEncoding=utf-8", "buli", "Powerbrother001!");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

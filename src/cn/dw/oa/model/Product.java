@@ -5,6 +5,11 @@ import java.util.Date;
 // 实体类，模型类，POJO 对应的是数据的某张表
 public class Product {
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", remark=" + remark + ", date=" + date
+				+ "]";
+	}
 	private Integer id;
 	private String name;
 	private Double price;
