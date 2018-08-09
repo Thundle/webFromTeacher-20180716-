@@ -4,6 +4,8 @@
 
 package cn.dw.oa.dao;
 
+
+import java.security.interfaces.RSAKey;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,59 +15,85 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.omg.CORBA.PUBLIC_MEMBER;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 
 import cn.dw.oa.model.Product;
-import cn.dw.oa.utils.JdbcUtils;
+
 
 // 完成基本product表的相关操作
-public class ProductDaoImpl extends BasicDaoImpl<Product>{
+public class ProductDaoImpl implements ProductDao {
 	
-	public static void main(String[] args) {
-		ProductDaoImpl daoImpl = new ProductDaoImpl();
-		Product product = new Product();
+	private JdbcTemplate jdbcTemplate;
+	
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	public int insertToProduct(Product product) {
-		String sql = "insert into product (name,price,remark) values (?,?,?)";
-		return super.unifyUpdate(sql, new Object[] {product.getName(), product.getPrice(), product.getRemark()});
-	}
-	
-	public int updateTheProduct(Product product) {
-		String sql = "update product set name = ?, price = ?, remark = ? where id = ?";
-		return super.unifyUpdate(sql, new Object[] {product.getName(), product.getPrice(), product.getRemark(),product.getId()});
-		
-	}
-//  看看delete方法，直接传入一个id就可以了，在父方法中是object...，不用强求一定要数组	
-//	public int deleteTheProduct(Product product) {
-//		String sql = "delete from product where id = ?";
-//		return super.unifyUpdate(sql, new Object[] {product.getId()});
-//	}
-	public int deleteTheProduct(int id) {
-		String sql = "delete from product where id = ?";
-		return super.unifyUpdate(sql, id);
-	}
-	
-	public Product selectByID(int id) {                          //一开始这里定义了返回类型是ProductList，仔细想想就知道，返回的是某个product对象
-		String sql = "select * from product where id =?";
-		List<Product> productList = super.unifyQuery(sql, id);
-		return productList.size()==0? null : productList.get(0);
-	}
-	
+
+	@Override
 	public List<Product> selectByName(String name) {
 		String sql = "select * from product where name like ?";
-		return super.unifyQuery(sql, "%"+ name +"%");
+		return jdbcTemplate.query(sql, (rs, num) -> {
+			Product product = new Product();
+			product.setId(rs.getInt("id"));
+			product.setName(rs.getString("name"));
+			product.setPrice(rs.getDouble("price"));
+			return product;
+		}, "%" + name + "%");
 		
 	}
 	
 	@Override
-	protected Product getRow(ResultSet rs) throws SQLException {  //对于商品，重写getRow方法
-		Product product = new Product();
-		product.setId(rs.getInt("id"));
-		product.setName(rs.getString("name"));
-		product.setPrice(rs.getDouble("price"));
-		product.setRemark(rs.getString("remark"));
-		product.setDate(rs.getDate("date"));
-		return product;
+	public Product selectById(int id) {
+		String sql = "select * from product where id =?";
+		return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+			Product product = new Product();
+			product.setId(rs.getInt("id"));
+			product.setName(rs.getString("name"));
+			return product;
+		}, id);
+	}
+	
+	@Override
+	public int insertToProduct(Product product) {
+		String sql = "insert into product (name,price,remark) values (?,?,?)";
+		return jdbcTemplate.update(sql, new Object[] {product.getName(), product.getPrice(), product.getRemark()});
+	}
+
+	@Override
+	public int updateTheProduct(Product product) {
+		String sql = "update product set name = ?, price = ?, remark = ? where id = ?";
+		return jdbcTemplate.update(sql, new Object[] {product.getName(), product.getPrice(), product.getRemark(),product.getId()});
+		
+	}
+
+	@Override
+	public int deleteTheProduct(int id) {
+		String sql = "delete from product where id = ?";
+//		return super.unifyUpdate(sql, id);
+		return jdbcTemplate.update(sql, id);
+	}
+	
+//	public Product selectByID(int id) {                          //一开始这里定义了返回类型是ProductList，仔细想想就知道，返回的是某个product对象
+//		String sql = "select * from product where id =?";
+//		List<Product> productList = super.unifyQuery(sql, id);
+//		return productList.size()==0? null : productList.get(0);
+//	}
+	
+
+
+
+	
+//	@Override
+//	protected Product getRow(ResultSet rs) throws SQLException {  //对于商品，重写getRow方法
+//		Product product = new Product();
+//		product.setId(rs.getInt("id"));
+//		product.setName(rs.getString("name"));
+//		product.setPrice(rs.getDouble("price"));
+//		product.setRemark(rs.getString("remark"));
+//		product.setDate(rs.getDate("date"));
+//		return product;
 	}
 	
 	
@@ -190,4 +218,4 @@ public class ProductDaoImpl extends BasicDaoImpl<Product>{
 //	}
     
     
-}
+

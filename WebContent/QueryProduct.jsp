@@ -34,7 +34,10 @@
 				<td>${p.price}</td>
 				<td>${p.remark }</td>
 				<td>${p.date}</td>
-				<td><a href="/webBuli/ProductToServlet?id=${p.id}&operateTypeInJSP=delete">删除</a>|ajax删除|更新</td>
+				<td><a href="/web/ProductToServlet?id=${p.id}&operateTypeInJSP=delete">删除</a>
+					|ajax删除
+					|<a href="/webBuli/ProductToServlet?id=${p.id}&operateTypeInJSP=selectById">更新</a>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
