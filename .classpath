@@ -30,5 +30,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-4.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-4.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/standard-1.1.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/c3p0-0.9.2.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -5,15 +5,12 @@
 <head>
 <title>查询商品</title>
  <script type="text/javascript"></script>
- <script type="text/javascript"></script>
 </head>
 <body>
-	<form action="/webBuli/ProductToServlet" method="get">
+	<form action="/webBuli/productCtrl/selectByName.mvc" method="post">
 		查询关键字:<input type="text" name="keywordInJSP" value="${sessionScope.querykeyword}" />
 		<button type="submit">给我搜</button>
-		<input type="hidden" name="operateTypeInJSP" value="query">
 	</form>
-	<!-- request,session,application都称为内置对象(不用创建(系统已经创建)直接使用) -->
 	<table width="800" border="1">
 	    <!-- tr代表行 td代表列 th:标题 -->
 		<tr>
@@ -26,7 +23,7 @@
 		</tr>
 		 <!-- items:循环的集合    var:循环的每个对象-->
 		 <!-- session.getAttribute("pList") -->
-		<c:forEach items="${requestScope.pListFromSvl}" var="p">
+		<c:forEach items="${requestScope.pListFromCtrl}" var="p">
 			 <!-- 循环一行 -->
 			 <tr>
 				<td>${p.id}</td>
@@ -34,9 +31,9 @@
 				<td>${p.price}</td>
 				<td>${p.remark }</td>
 				<td>${p.date}</td>
-				<td><a href="/web/ProductToServlet?id=${p.id}&operateTypeInJSP=delete">删除</a>
+				<td><a href="/webBuli/productCtrl/delete.mvc?id=${p.id}">删除</a>
 					|ajax删除
-					|<a href="/webBuli/ProductToServlet?id=${p.id}&operateTypeInJSP=selectById">更新</a>
+					|<a href="/webBuli/productCtrl/selectById.mvc?id=${p.id}">更新</a>
 				</td>
 			</tr>
 		</c:forEach>
