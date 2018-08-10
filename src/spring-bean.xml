@@ -50,7 +50,16 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 		<aop:pointcut expression="execution(* cn.dw.oa.service.*.*(..))" id="pt"/>
 		<aop:advisor advice-ref="ad" pointcut-ref="pt"/>
 	</aop:config>
-
+	
+	<bean id="ssf" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="configLocation" value="classpath:mybatis.cfg.xml"></property>
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+	
+	<bean id="mfb" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="ssf"></property>
+		<property name="mapperInterface" value="cn.dw.oa.dao.ProductDao"></property>
+	</bean>
 
 </beans>
 

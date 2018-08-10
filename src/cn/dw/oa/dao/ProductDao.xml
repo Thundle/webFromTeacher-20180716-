@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.dw.oa.dao.ProductDao">
+
+	<insert id="ins" parameterType = "product">
+		insert into product
+		(<include refid="param"></include>) values (<include refid="value"></include>) 
+	</insert>
+	
+	<sql id="param">
+		<trim suffixOverrides=",">
+			<if test="name!null">name,</if>
+			<if test="price!null">price,</if>
+			<if test="remark!null">remark,</if>
+			<if test="date!null">date,</if>
+		</trim>
+	</sql>
+	
+	<sql id="value">
+		<trim suffixOverrides=",">
+			<if test="name!=null">#{name},</if>
+			<if test="price!=null">#{price},</if>
+			<if test="remark!=null">#{remark},</if>
+			<if test="date!=null">#{date},</if>
+		</trim>
+	</sql>
+	
+	<update id="update" parameterType="product">
+		update product
+		<set>
+			<if test="name!=null">name = #{name},</if>
+			<if test="price!=null">price = #{price},</if>
+			<if test="remark!=null">remark = #{remark},</if>
+			<if test="date!=null">date = #{date},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType= "int">
+		delete from product where id = #{id}
+	</delete>
+
+	<select id="getById" parameterType = "int" resultType= "product">
+		select * from product where id = #{id}
+	</select>	
+	
+	<select id="queryByName" resultType="product">
+		select * from product where name like #{querykeyword} limit #{startpage},#{pagesize}
+	</select>
+
+</mapper>
+	
