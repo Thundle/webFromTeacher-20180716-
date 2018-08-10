@@ -12,18 +12,7 @@ import cn.dw.oa.model.Product;
 import cn.dw.oa.service.ProductService;
 
 @RequestMapping("/productCtrl")//看看CreateProduct.jsp你就明白
-public class ProductController {
-	
-	private ProductService productService;
-
-	public void setProductService(ProductService productService) {
-		this.productService = productService;
-	}
-	
-	@Resource
-	private HttpServletRequest request;
-	@Resource
-	private HttpSession session;
+public class ProductController extends BaseController{
 	
 	@RequestMapping("/insert")//这里就是jsp用来访问的相对路径吧，可以这么理解
 	public String insert(Product product) {
