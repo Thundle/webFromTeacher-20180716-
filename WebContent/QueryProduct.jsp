@@ -8,7 +8,7 @@
 </head>
 <body>
 	<form action="/webBuli/productCtrl/selectByName.mvc" method="post">
-		查询关键字:<input type="text" name="keywordInJSP" value="${sessionScope.querykeyword}" />
+		查询关键字:<input type="text" name="querykeyword" value="${sessionScope.querykeyword}" />
 		<button type="submit">给我搜</button>
 	</form>
 	<table width="800" border="1">
@@ -29,7 +29,7 @@
 				<td>${p.id}</td>
 				<td>${p.name}</td>
 				<td>${p.price}</td>
-				<td>${p.remark }</td>
+				<td>${p.remark}</td>
 				<td>${p.date}</td>
 				<td><a href="/webBuli/productCtrl/delete.mvc?id=${p.id}">删除</a>
 					|ajax删除

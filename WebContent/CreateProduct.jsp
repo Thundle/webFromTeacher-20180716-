@@ -7,9 +7,9 @@
 </head>
 <body>
 	<form action="/webBuli/productCtrl/insert.mvc" method="get">
-		商品名：<input type="text" name="nameInJSP" /><br>
-		价格：<input type="text" name="priceInJSP" /> <br>
-		备注：<textarea rows="5" cols="20" name="remarkInJSP"></textarea>
+		商品名：<input type="text" name="name" /><br>
+		价格：<input type="text" name="price" /> <br>
+		备注：<textarea rows="5" cols="20" name="remark"></textarea>
 		<button type="submit">添加商品</button>
 		<!--input type="hidden" name="operateTypeInJSP" value="insert"  -->
 	</form>

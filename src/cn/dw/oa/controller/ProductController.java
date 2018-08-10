@@ -46,16 +46,17 @@ public class ProductController {
 	@RequestMapping("/delete")
 	public String delete(Integer id) {
 		productService.deleteOneProduct(id);
-		String name = (String) session.getAttribute("name");
-		List<Product> pList = productService.selectByName(name);
+		String querykeyword = (String) session.getAttribute("querykeyword");
+		List<Product> pListFromCtrl = productService.selectByName(querykeyword);
+		request.setAttribute("pListFromCtrl", pListFromCtrl);//没写这句，导致删除后数据又显示不出来了
 		return "forward:/QueryProduct.jsp";
 	}
 	
 	@RequestMapping("/selectByName")//记得改QueryProduct.jsp的相关参数，那些request、session.scope
 	public String selectByName(String querykeyword) {
 		session.setAttribute("querykeyword", querykeyword );
-		List<Product> pList = productService.selectByName(querykeyword);
-		request.setAttribute("pListFromCtrl", pList);
+		List<Product> pListFromCtrl = productService.selectByName(querykeyword);
+		request.setAttribute("pListFromCtrl", pListFromCtrl);
 		return "forward:/QueryProduct.jsp";
 	}
 	
