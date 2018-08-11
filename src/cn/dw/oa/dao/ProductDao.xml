@@ -4,7 +4,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.dw.oa.dao.ProductDao">
-
+	
+	<resultMap type="product" id="productMap">
+		<id property="id" column="pro_id"/>
+		<result property="name" column="pro_name"/>
+		<result property="price" column="pro_price"/>
+		<result property="remark" column="pro_remark"/>
+		<result property="date" column="pro_date"/>
+	</resultMap>
+	
+	<resultMap type="product" id="joinCategory" extends="productMap">
+		<association property="category" resultMap="cn.dw.oa.dao.CategoryDao.categoryMap" />
+	</resultMap>
+	
+	
+	
+	
 	<insert id="insertToProduct" parameterType = "product">
 		insert into product
 		(<include refid="param"></include>) values (<include refid="value"></include>) 
@@ -12,10 +27,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<sql id="param">
 		<trim suffixOverrides=",">
-			<if test="name!=null">name,</if>
-			<if test="price!=null">price,</if>
-			<if test="remark!=null">remark,</if>
-			<if test="date!=null">date,</if>
+			<if test="name!=null">pro_name,</if>
+			<if test="price!=null">pro_price,</if>
+			<if test="remark!=null">pro_remark,</if>
+			<if test="date!=null">pro_date,</if>
+			<if test="category!=null and category.id!=null">c_id,</if>
 		</trim>
 	</sql>
 	
@@ -25,30 +41,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="price!=null">#{price},</if>
 			<if test="remark!=null">#{remark},</if>
 			<if test="date!=null">#{date},</if>
+			<if test="category!=null and category.id!=null">#{category.id},</if>
 		</trim>
 	</sql>
 	
 	<update id="updateTheProduct" parameterType="product">
 		update product
 		<set>
-			<if test="name!=null">name = #{name},</if>
-			<if test="price!=null">price = #{price},</if>
-			<if test="remark!=null">remark = #{remark},</if>
-			<if test="date!=null">date = #{date},</if>
+			<if test="name!=null">pro_name = #{name},</if>
+			<if test="price!=null">pro_price = #{price},</if>
+			<if test="remark!=null">pro_remark = #{remark},</if>
+			<if test="date!=null">pro_date = #{date},</if>
+			<if test="category!=null and category.id!=null">c_id = #{category.id}</if>
 		</set>
-		where id = #{id}
+		where pro_id = #{id}
 	</update>
 	
 	<delete id="deleteTheProduct" parameterType= "int">
-		delete from product where id = #{id}
+		delete from product where pro_id = #{id}
 	</delete>
 
-	<select id="selectById" parameterType = "int" resultType= "product">
-		select * from product where id = #{id}
+	<select id="selectById" parameterType = "int" resultMap="productMap">
+		select * from product p join category c on p.c_id = c.c_id
+		where pro_id = #{id}
 	</select>	
 	
-	<select id="selectByName" resultType="product">
-		select * from product where name like #{querykeyword} limit #{startpage},#{pagesize}
+	<select id="selectByName" resultType="joinCategory">
+		select * from product p join category c on p.c_id = c.c_id
+		where name like #{querykeyword} limit #{startpage},#{pagesize}
 	</select>
 
 </mapper>

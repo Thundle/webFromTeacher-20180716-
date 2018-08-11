@@ -15,6 +15,7 @@ public class Product {
 	private Double price;
 	private String remark;
 	private Date date;
+	private Category category;
 	
 	public Integer getId() {
 		return id;
@@ -46,6 +47,11 @@ public class Product {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 	
 }
