@@ -27,8 +27,8 @@ public class ProductServiceImpl implements ProductService {
 	 */
 	@Override
 	public List<Product> selectByName(String keyword) {
-		int startpage = 2;
-		int pagesize = 5;
+		int startpage = 1;
+		int pagesize = 10;
 		return productDao.selectByName("%" + keyword + "%", (startpage-1)*pagesize,pagesize);
 	}
 	

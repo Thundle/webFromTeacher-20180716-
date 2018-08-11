@@ -28,7 +28,8 @@ public class ProductController extends BaseController{
 	
 	@RequestMapping("/selectById")
 	public String selectById(Integer id) {
-		productService.selectByID(id);
+		Product product = productService.selectByID(id);
+		request.setAttribute("product", product);
 		return "forward:/Update.jsp";
 	}
 	

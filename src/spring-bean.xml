@@ -15,55 +15,29 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 http://www.springframework.org/schema/aop 
 http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
-	<bean id="ds" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="driverClass" value="com.mysql.jdbc.Driver"/>
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/demo?characterEncoding=utf-8"/>
-		<property name="user" value="buli"/>
-		<property name="password" value="Powerbrother001!"/>
-	</bean>
-
-	<bean id="jt" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="ds"/>
-	</bean>
-	
-	<bean id="pd" class="cn.dw.oa.dao.ProductDaoImpl">
-		<property name="jdbcTemplate" ref="jt"/>
-	</bean>
-	
-	<bean id="tm" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property  name="dataSource" ref="ds"/>
-	</bean>
-	
 	<bean id="ps" class="cn.dw.oa.service.ProductServiceImpl">
-		<property name="productDao" ref="pd"/>
+		<property name="productDao" ref="productDao"/>
 	</bean>
 	
-	<tx:advice transaction-manager="tm" id="ad">
-		<tx:attributes>
-			<tx:method name="insert*" propagation="REQUIRED"/>
-			<tx:method name="update*" propagation="REQUIRED"/>
-			<tx:method name="delete*" propagation="REQUIRED"/>
-		</tx:attributes>	
-	</tx:advice>
-	
-	<aop:config>
-		<aop:pointcut expression="execution(* cn.dw.oa.service.*.*(..))" id="pt"/>
-		<aop:advisor advice-ref="ad" pointcut-ref="pt"/>
-	</aop:config>
-	
-	<bean id="ssf" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="configLocation" value="classpath:mybatis.cfg.xml"></property>
-		<property name="dataSource" ref="ds"></property>
-	</bean>
-	
-	<bean id="mfb" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<!-- 重要的地方，以下是spring + mybatis 整合 -->
+	<bean id="productDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="sqlSessionFactory" ref="ssf"></property>
 		<property name="mapperInterface" value="cn.dw.oa.dao.ProductDao"></property>
 	</bean>
 
 </beans>
 
+	<!--  
+	<bean id="jt" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="ds"/>
+	</bean>
+	-->
 
+	<!-- 
+	<bean id="pd" class="cn.dw.oa.dao.ProductDaoImpl">
+		<property name="jdbcTemplate" ref="jt"/>
+	</bean>
+	 -->
 
 
 

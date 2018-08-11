@@ -14,7 +14,7 @@ public interface ProductDao {
 
 	int deleteTheProduct(int id);
 
-	List<Product> selectByName(@Param("queryword")String name,@Param("stratpage") int page, @Param("pagesize") int size);
+	List<Product> selectByName(@Param("querykeyword")String name,@Param("startpage") int page, @Param("pagesize") int size);
 	
 	Product selectById(int id);
 

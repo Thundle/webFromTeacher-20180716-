@@ -5,17 +5,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="cn.dw.oa.dao.ProductDao">
 
-	<insert id="ins" parameterType = "product">
+	<insert id="insertToProduct" parameterType = "product">
 		insert into product
 		(<include refid="param"></include>) values (<include refid="value"></include>) 
 	</insert>
 	
 	<sql id="param">
 		<trim suffixOverrides=",">
-			<if test="name!null">name,</if>
-			<if test="price!null">price,</if>
-			<if test="remark!null">remark,</if>
-			<if test="date!null">date,</if>
+			<if test="name!=null">name,</if>
+			<if test="price!=null">price,</if>
+			<if test="remark!=null">remark,</if>
+			<if test="date!=null">date,</if>
 		</trim>
 	</sql>
 	
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
 	</sql>
 	
-	<update id="update" parameterType="product">
+	<update id="updateTheProduct" parameterType="product">
 		update product
 		<set>
 			<if test="name!=null">name = #{name},</if>
@@ -39,15 +39,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where id = #{id}
 	</update>
 	
-	<delete id="delete" parameterType= "int">
+	<delete id="deleteTheProduct" parameterType= "int">
 		delete from product where id = #{id}
 	</delete>
 
-	<select id="getById" parameterType = "int" resultType= "product">
+	<select id="selectById" parameterType = "int" resultType= "product">
 		select * from product where id = #{id}
 	</select>	
 	
-	<select id="queryByName" resultType="product">
+	<select id="selectByName" resultType="product">
 		select * from product where name like #{querykeyword} limit #{startpage},#{pagesize}
 	</select>
 
