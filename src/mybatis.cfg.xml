@@ -7,10 +7,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<package name="cn.dw.oa.model"/>
 	</typeAliases>
-
 	<mappers>
 		<mapper resource="cn/dw/oa/dao/CategoryDao.xml" />
 		<mapper resource="cn/dw/oa/dao/ProductDao.xml" />
 	</mappers>
-
 </configuration>

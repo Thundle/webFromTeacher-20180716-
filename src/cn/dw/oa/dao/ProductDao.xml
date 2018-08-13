@@ -61,14 +61,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from product where pro_id = #{id}
 	</delete>
 
-	<select id="selectById" parameterType = "int" resultMap="productMap">
+	<select id="selectById" parameterType = "int" resultMap="joinCategory">
 		select * from product p join category c on p.c_id = c.c_id
 		where pro_id = #{id}
 	</select>	
 	
-	<select id="selectByName" resultType="joinCategory">
+	<select id="selectByName" resultMap="joinCategory">
 		select * from product p join category c on p.c_id = c.c_id
-		where name like #{querykeyword} limit #{startpage},#{pagesize}
+		where pro_name like #{querykeyword} limit #{startpage},#{pagesize}
 	</select>
 
 </mapper>

@@ -7,17 +7,15 @@ import cn.dw.oa.model.Category;
 
 public class CategoryServiceImpl implements CategoryService {
 
-	private CategoryDao category;
-	
-	
-	public void setCategory(CategoryDao category) {
-		this.category = category;
+	private CategoryDao categoryDao;
+
+	public void setCategoryDao(CategoryDao categoryDao) {
+		this.categoryDao = categoryDao;
 	}
 
-
 	@Override
-	public List<Category> queryByName(String name) {
-		return category.queryByName("%"+ name + "%" );
+	public List<Category> queryByName(String keyword) {
+		return categoryDao.queryByName("%"+ keyword + "%" );
 	}
 
 }

@@ -8,4 +8,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="id" column="c_id"/>
 		<result property="name" column="c_name"/>
 	</resultMap>
+	
+	
+	<select id="queryByName" parameterType="string" resultMap="categoryMap">
+		select * from category where c_name like #{keyword}
+	</select>
 </mapper>

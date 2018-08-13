@@ -19,6 +19,7 @@
 			<th>价格</th>
 			<th>备注</th>
 			<th>日期</th>
+			<th>所属类别</th>
 			<th>操作</th>
 		</tr>
 		 <!-- items:循环的集合    var:循环的每个对象-->
@@ -31,7 +32,9 @@
 				<td>${p.price}</td>
 				<td>${p.remark}</td>
 				<td>${p.date}</td>
-				<td><a href="/webBuli/productCtrl/delete.mvc?id=${p.id}">删除</a>
+				<td>${p.category.name}</td>
+				<td>
+					<a href="/webBuli/productCtrl/delete.mvc?id=${p.id}">删除</a>
 					|ajax删除
 					|<a href="/webBuli/productCtrl/selectById.mvc?id=${p.id}">更新</a>
 				</td>

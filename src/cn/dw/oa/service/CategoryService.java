@@ -5,5 +5,5 @@ import java.util.List;
 import cn.dw.oa.model.Category;
 
 public interface CategoryService {
-	List<Category> queryByName (String name);
+	List<Category> queryByName (String keyword);
 }

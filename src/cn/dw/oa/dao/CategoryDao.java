@@ -6,5 +6,5 @@ import cn.dw.oa.model.Category;
 
 public interface CategoryDao {
 	
-	public List<Category> queryByName(String name) ;
+	public List<Category> queryByName(String keyword) ;
 }
